@@ -10,7 +10,7 @@ class Buttons extends Component {
     state = {  }
     render() { 
         return ( 
-            <button onClick={(e)=> this.props.clickHandel(e)}>{this.props.value}</button>
+            <button  onClick={(e)=> this.props.clickHandel(e)}>{this.props.value}</button>
          );
     }
 }
