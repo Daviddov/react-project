@@ -13,23 +13,36 @@ class App6 extends Component {
             fontFamily: 'David',
             fontSize: 'medium'
         },
-        
+
     }
-     undoArr = []
+    undoArr = []
+    redoArr = []
 
     keyPress = (e) => {
         this.undoArr.push(this.state)
         this.setState({ context: [...this.state.context, e.target.innerHTML] })
-console.log(this.undoArr);
-console.log(this.undoArr.slice(-1)[0]);
+
     }
 
     backspace = (e) => {
         this.setState({ context: this.state.context.slice(0, -1) })
     }
     undo = (e) => {
+        if( this.undoArr.length > 0) {
+        this.redoArr.push(this.undoArr.slice(-1)[0])
         this.setState({ context: this.undoArr.slice(-1)[0].context })
         this.setState({ styles: this.undoArr.slice(-1)[0].styles })
+        this.undoArr.pop()
+    }
+    }
+
+    redo = (e) => {
+        if (this.redoArr.length > 0 ){
+        this.undoArr.push(this.redoArr.slice(-1)[0])
+        this.setState({ context: this.redoArr.slice(-1)[0].context })
+        this.setState({ styles: this.redoArr.slice(-1)[0].styles })
+        this.redoArr.pop()
+        }
     }
 
     enter = (e) => {
@@ -85,7 +98,10 @@ console.log(this.undoArr.slice(-1)[0]);
                 <FuncButtons onClick={this.enter} name={'enter'} />
                 <FuncButtons onClick={this.space} name={'space'} />
                 <FuncButtons onClick={this.clear} name={'clear'} />
+                <hr />
+                {this.undoArr.length}
                 <FuncButtons onClick={this.undo} name={'undo'} />
+                <FuncButtons onClick={this.redo} name={'redo'} />
 
 
                 <hr />
